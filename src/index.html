@@ -1,0 +1,90 @@
+<!DOCTYPE html><html><head>
+<meta charset="UTF-8">
+<title>колизии</title>	
+
+
+<script src='src/libMy/divLib.js'></script>
+<script src='src/libMy/divLibPlus.js'></script>
+<script src='src/lib/three.min.js'></script>
+<script src='src/lib/pixi.js'></script>
+<script src='src/lib/jquery-1.11.3.js'></script>
+
+
+<script type="module">
+	window.trace = window.console.log.bind(window.console);
+	import { Main } from "./src/Main.js";
+
+
+	/*var trace = window.console.log.bind(window.console);
+
+	var dcmParam;	
+	var appLoader;
+	var path="src/"
+	var plus="?"+Math.random();
+	var manifest = [
+		{src: path + 'libMy/divLib.js' + plus},
+		{src: path + 'libMy/divLibPlus.js' + plus},
+		{src: path + 'lib/jquery-1.11.3.js' + plus},
+		{src: path + 'lib/three.min.js' + plus},
+		{src: path + 'lib/pixi.js' + plus},
+		//{src: path + '/lib/tween.min.js' + plus},
+		{src:'build/p20.min.js' + plus}
+	];
+
+
+*/
+	var main
+	function sizeWindow () {
+		var w = document.documentElement.clientWidth;
+		var h = document.documentElement.clientHeight;
+
+		if(main)main.sizeWindow(w,h)
+
+	}
+/*
+
+	function init () {
+		window.onresize = sizeWindow;
+		/*trace("!")		
+		appLoader = new AppLoader(
+			null,
+			"resources/image/load.png",			
+			manifest,
+			function () {  				
+				dcmParam = new DCM();				
+				main=new Main(function(s, p){
+					if(s=="init"){
+						appLoader.indicator.procent = 100;
+						sizeWindow()					
+					}
+				},0)				
+				sizeWindow()				
+			},
+			null,
+			-85		
+		)
+				
+	}*/
+	function init () {
+		trace("@@@@");
+		main=new Main(function(s,p,p1){
+
+		})
+
+		sizeWindow();
+
+	}
+	setTimeout(function() {
+		init();
+	}, 10);
+
+</script>
+
+<style type="text/css">
+	#stats { position: absolute; top:0; left: 200px; }	
+</style>
+</head>
+<meta name="viewport" content="width=device-width,height=device-height,user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<body>
+
+</body></html>
