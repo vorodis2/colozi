@@ -11,7 +11,7 @@ import { SceneSB } from './visi3D/SceneSB.js';
 
 
 import { DebKR } from './menu/DebKR.js';
-
+import { DebTriang } from './menu/DebTriang.js';
 export class Glaf  {
   	constructor(par) {  		
   		this.type="Glaf";
@@ -88,6 +88,7 @@ export class Glaf  {
         this.window.content.div.appendChild(this.div)
         this.visi3D.sizeWindow(0,0,this.window.width,this.window.height);
 
+        
         this.dev=new DCompDev(self.dCont,64,80,"DevWindow",function(s,p,p1){            
             self.saveLoacal();
         });
@@ -97,15 +98,21 @@ export class Glaf  {
             self.saveLoacal();
         },false);
 
+/*
         this.debKR=new DebKR(this,function(s,p,p1){
             if(s=="saveLocal") self.saveLoacal();
         });
         self.devBig.addCont(this.debKR, this.debKR.dCont,"DebKR",undefined,undefined);
         this.devBig.index=0;
-        this.debKR.init();
+        this.debKR.init();*/
 
 
-
+        ///////////////////////////////////////////////
+        this.debTriang=new DebTriang(this,function(s,p,p1){
+            self.saveLoacal();
+        })
+        this.debTriang.init();
+        /////////////////////////////////////////////////
 
         
  
@@ -143,11 +150,11 @@ export class Glaf  {
             }
 
             if(o.devBig){
-                this.devBig.minimize=o.devBig.minimize
+              /*  this.devBig.minimize=o.devBig.minimize
                 this.devBig.x=o.devBig.x
                 this.devBig.y=o.devBig.y
                
-                this.devBig.index=0//o.devBig.index
+                this.devBig.index=0//o.devBig.index*/
             }
             
 
@@ -156,7 +163,16 @@ export class Glaf  {
                 this.window.height=o.window.height;
                 this.visi3D.sizeWindow(0,0,this.window.width,this.window.height);
             }
-            if(o.debKR)this.debKR.setObjLoc(o.debKR)
+
+           
+            if(this.debTriang)if(o.debTriang){
+                trace(o.debTriang)
+                this.debTriang.setObjLoc(o.debTriang)
+            }
+
+
+            //return
+            if(this.debKR)if(o.debKR)this.debKR.setObjLoc(o.debKR)
         }
         this.getObjLoc=function(o){ 
             var o={}
@@ -180,8 +196,8 @@ export class Glaf  {
             o.devBig.y=this.devBig.y
             o.devBig.index=this.devBig.index
             
-
-            o.debKR=this.debKR.getObjLoc();
+            if(this.debTriang)o.debTriang=this.debTriang.getObjLoc();
+            if(this.debKR)o.debKR=this.debKR.getObjLoc();
             return o
         }
 
