@@ -67,7 +67,7 @@ export class SpDebugPixi  {
 			var ss=s||4
 			if(aT[sT]==undefined){
 				aT[sT]= new PIXI.Container();
-	    		pp = new PIXI.Text('345634634',{ fontFamily : 'Arial' })
+	    		pp = new PIXI.Text('345634634',{ fontFamily : 'Arial'})
 	    		aT[sT].addChild(pp);	
 	    		this.content2d.addChild(aT[sT])    
 			}
