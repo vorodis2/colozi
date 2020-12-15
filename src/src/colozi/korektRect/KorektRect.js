@@ -31,7 +31,7 @@ export class KorektRect  {
         this.coliz=null
         this.arrWin=[
             {x:1000,y:1000,w:1000,h:1000},
-            // {x:1500,y:1500,w:1000,h:1000}
+            {x:3000,y:1000,w:1000,h:1000}
         ];
         this.arrWinDin=[];
 
@@ -42,7 +42,7 @@ export class KorektRect  {
            // {p:{x:4000,y:1000},p1:{x:1000,y:2000}}*/
         ];
 
-   
+
         this.calc=new Calc();
 
 
@@ -66,7 +66,6 @@ export class KorektRect  {
             this.rect.y=0;
             this.rect.h=ohH1W.height;
             this.rect.h1=ohH1W.height1;
-            
         }
 
         this.removeDin=function(_rb){
@@ -183,94 +182,111 @@ export class KorektRect  {
             const isLeftSide = _br.x1 == _win.x;
             const isRightSide = _br.x == _win.x1;
 
-            const opt = {}
-
-            console.log("-----------------")
-            console.log(_br.x1, _win.x, isLeftSide)
-            console.log(_br.x, _win.x1, isRightSide)
+            const { sides } = _br;
+            let size, side, isLeft, isDown;
 
             if (isDownSide || isTopSide) {
                 //*  полностью на грани
                 if (_br.x == _win.x && _br.x1 == _win.x1) {
-                    opt.side = isDownSide ? 0 : 2;
-                    opt.size = 0;
-                    return opt;
+                    sides.push({size: 0, side: isDownSide ? 0 : 2})
+                    return
                 }
 
                 //* вылазит слева
                 if (_br.x1 <= _win.x1 && _br.x < _win.x) {
-                    opt.side = isDownSide ? 0 : 2;
+                    side = isDownSide ? 0 : 2;
 
                     n=(_win.x-_br.x)/_br.w; 
 
-                    opt.isLeft = true;
-                    opt.size = _br.w*n;
-                    return opt;
+                    isLeft = true;
+                    size = _br.w*n;
+                    sides.push({size, side, isLeft})
+                    return
                 }
 
                 //* вылазит справа
                 if (_br.x >= _win.x && _br.x1 > _win.x1) {
-                    opt.side = isDownSide ? 0 : 2;
+                    side = isDownSide ? 0 : 2;
 
                     n=((_win.x1)-_br.x)/_br.w;
                     n1=_br.w*n;
 
-                    opt.isLeft = false;
-                    opt.size =_br.w-n1;
-                    return opt;
+                    isLeft = false;
+                    size =_br.w-n1;
+                    sides.push({size, side, isLeft})
+                    return
+                }
+
+                if (_br.x < _win.x && _br.x1 > _win.x1) {
+                    
+                }
+
+                if (isDownSide && _br.y < _win.y) {
+                    sides.push({size: 0, side: 0})
+                    return;
+                }
+                if (isTopSide && _br.y1 > _win.y1) {
+                    sides.push({size: 0, side: 2})
+                    return;
                 }
             }
 
             if (isLeftSide || isRightSide) {
                 if (_br.y == _win.y && _br.y1 == _win.y1) {
-                    opt.side = isRightSide ? 1 : 3;
-                    opt.size = 0;
-                    return opt;
+                    sides.push({size: 0, side: isRightSide ? 1 : 3});
+                    return
                 }
 
                  //* вылазит сверху 
                 if (_br.y1 <= _win.y1 && _br.y < _win.y) {
-                    opt.side = isRightSide ? 1 : 3;
+                    side = isRightSide ? 1 : 3;
 
                     n=(_win.y-_br.y)/_br.h;   
 
-                    opt.size = _br.h*n;
-                    opt.isDown = false;
-                    return opt;
+                    size = _br.h*n;
+                    isDown = false;
+                    sides.push({size, side, isDown})
+                    return
                 }
 
                 //* вылазит снизу
                 if (_br.y >= _win.y && _br.y1 > _win.y1) {
-                    opt.side = isRightSide ? 1 : 3;
+                    side = isRightSide ? 1 : 3;
 
                     n=((_win.y1)-_br.y)/_br.h;         
                     n1=_br.h*n;
 
-                    opt.size = _br.h-n1;
-                    opt.isDown = true;
-                    return opt;
+                    size = _br.h-n1;
+                    isDown = true;
+                    sides.push({side, size, isDown})
+                    return
+                }
+
+                if (isRightSide && _br.x1 > _win.x1) {
+                    sides.push({side: 1, size: 0})
+                    return;
+                }
+                if (isLeftSide && _br.x < _win.x) {
+                    sides.push({side: 3, size: 0})
+                    return;
                 }
             }
-
-            return null;
         }
-
-        this.getIntersect = (_br, _win) => {
-
-        }
-
 
          //* находим координаты конца блока
         this.endCoords = function(_rect) {
             _rect.x1 = _rect.x + _rect.w;
             _rect.y1 = _rect.y + _rect.h;
-            return
         }
 
-        var bx,by,bx1,by1,n,n1,br
+        this.rectIntersect = function(_br, _win) {
+            return _win.y < _br.y1 && _win.y1 > _br.y && _win.x < _br.x1 && _win.x1 > _br.x
+        }
+
+        var n,n1,br
         this.reshik2=function(_i,_br,_win){
 
-            //* получаем координаты конца квадрата
+            //* получаем координаты конца окна и ректа
             this.endCoords(_br);
             this.endCoords(_win);
 
@@ -284,91 +300,17 @@ export class KorektRect  {
                     return                                           
                 }
 
-                //* получаем стороны совпавших граней
-                const opt = this.getMatchEdges(_br, _win);
-                if (opt != null) {
-                    _br.opt = opt;
-                    return
-                }
+                //* обводим грани
+                this.getMatchEdges(_br, _win);
 
-                // //* если рект по y внутри окна       
-                // if(_br.x<_win.x&&_br.x1>_win.x){           //* если рект по x вылазит слева
-                //     br=null
-                //     if(_br.x1>_win.x1){                     //* если рект по x вылазит с обоих сторон
-                //         br=this.getR();
-                //         br.set(_br);
-                //         this.arrDin.push(br); 
-                //         br.x1=br.x+br.w
-                //         br.y1=br.y+br.h                           
-                //     }
+                //* нужно ли резать
+                if (!this.rectIntersect(_br, _win)) return;
 
-                //     this.getMatchEdges(_br, _win)
-                //     n=(_win.x-_br.x)/_br.w                  //* коефициент на который рект вылазит из окна, относительно длины ректа                     
-                //     _br.w=_br.w*n
-                //     _br.u1=_br.u+(_br.u1-_br.u)*n           //* обновляем пропорцию текстуры
-                //     //* закрашивает сторону соприкостновения по y
-
-                //     if(br!==null){
-                //         n=((_win.x1)-br.x)/br.w 
-                //         n1=br.w*n;
-                //         this.getMatchEdges(br, _win)
-                //         br.w=br.w-n1;
-                //         br.x+=n1;
-
-                //         br.u=br.u+(br.u1-br.u)*n                        
-                //     }
-                //     return
-                // }
-                // if(_br.x>_win.x&&_br.x<_win.x1){           //? если рект по x вылазит справа
-                //     n=((_win.x1)-_br.x)/_br.w               //* коефициент на который рект вылазит из окна, относительно длины ректа    
-                //     n1=_br.w*n
-                //     this.getMatchEdges(_br, _win)
-                //     _br.w=_br.w-n1
-                //     _br.x+=n1 
-                //     _br.u=_br.u+(_br.u1-_br.u)*n                      
-                //     return
-                // }    
-
-                // if(_br.y<_win.y&&_br.y1>_win.y){       //* если рект вылазит снизу
-                //     br=null
-                //     if(_br.y1>_win.y1){//хрень большая
-                //         br=this.getR()                            
-                //         br.set(_br);
-                //         this.arrDin.push(br) 
-                //         br.x1=br.x1
-                //         br.y1=br.y1                            
-                //     }
-
-                //     n=(_win.y-_br.y)/_br.h    
-                //     this.getMatchEdges(_br, _win)                   
-                //     _br.h=_br.h*n
-                //     _br.v1=_br.v+(_br.v1-_br.v)*n
-
-                //     if(br!==null){
-                //         n=((_win.y1)-br.y)/br.h 
-                //         n1=br.h*n;
-                //         this.getMatchEdges(br, _win)
-                //         br.h=br.h-n1;
-                //         br.y+=n1;
-                //         br.v=br.v+(br.v1-br.v)*n
-                //     }  
-                //     return
-                // }
-
-                // if(_br.y>_win.y&&_br.y<_win.y1){      //* если рект вылазит сверзу
-                //     n=((_win.y1)-_br.y)/_br.h           //* коефициент на который рект вылазит из окна, относительно высоты ректа             
-                //     n1=_br.h*n
-                //     this.getMatchEdges(_br, _win)
-                //     _br.h=_br.h-n1
-                //     _br.y+=n1
-                //     _br.v=_br.v+(_br.v1-_br.v)*n                     
-                //     return
-                // }     
                 
-                //разрезаем на куски
+
                 this.krUmnik.setBoxInRect(_br,_win)
                 this.arrDin.splice(_i,1)
-                return    
+                return;
             } 
         }
         ////////////////////////////////////////////////////
@@ -392,14 +334,14 @@ export class KorektRect  {
             
             for (j = 0; j < this.sahL; j++) {
                 rdBig=this.arrayL[j]
-              
+            
                 for (i = this.arrDin.length-1; i >=0 ; i--) {
                     this.reshikLine1(i,this.arrDin[i],rdBig)
                 }
             }           
         }
 
-     
+    
         var rrEE=new KRGronLine();
         this.reshikLine1=function(_i,_br, rd){
             _br.x1=_br.x+_br.w;

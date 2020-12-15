@@ -18,6 +18,7 @@ export class KRGronRect  {
         this.u1=1;
         this.v1=1;
 
+        this.sides = [];
         this.boolPoli=true;//сторона отрисовки
         this.boolNa=false;//разрезаем ли ?
         this.boolOt=false;//сторона отсечения
@@ -37,6 +38,7 @@ export class KRGronRect  {
             this.v=br.v;
             this.u1=br.u1;
             this.v1=br.v1;
+            this.sides = br.sides
             for (i = 0; i < 4; i++) {
                 this.bool[i]=br.bool[i]
                 this.bool1[i]=br.bool1[i]
@@ -54,6 +56,7 @@ export class KRGronRect  {
             this.bool[1]=b1;
             this.bool[2]=b2;
             this.bool[3]=b3;
+            this.sides = [];
 
             this.u=_x;
             this.v=_y;
@@ -62,11 +65,12 @@ export class KRGronRect  {
         }
 
         //очистка основных будей
-       	this.clear=function(){
+        this.clear=function(){
             for (i = 0; i < 4; i++) {
                 this.bool[i]=false
                 this.bool1[i]=false
             } 
+            this.sides.length = 0;
             this.boolPoli=true; 
             this.boolNa=false; 
             this.boolOt=false;      

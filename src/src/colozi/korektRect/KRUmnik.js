@@ -275,30 +275,30 @@ export class KRUmnik  {
             ay.length=0;
             ar.length=0;
 
-            
             rx=0
             ry=0
 
             ax[0]=0;
             ay[0]=0;
 
-            if(_br.x<_win.x&&_br.x1>_win.x){
+            if(_br.x < _win.x){
                 rx=ax.length
                 ax.push((_win.x-_br.x)/_br.w)
             }
-            if(_br.x<_win.x1&&_br.x1>_win.x1){
+            if(_br.x1 > _win.x1){
                 //rx=ax.length
                 ax.push((_win.x1-_br.x)/_br.w)   
             }
 
-            if(_br.y<_win.y&&_br.y1>_win.y){
+            if(_br.y < _win.y){
                 ry=ay.length
                 ay.push((_win.y-_br.y)/_br.h)
             }
-            if(_br.y<_win.y1&&_br.y1>_win.y1){
+            if(_br.y1 > _win.y1){
                 //ry=ay.length
                 ay.push((_win.y1-_br.y)/_br.h) 
             }    
+
             ax.push(1);
             ay.push(1);
 
@@ -325,28 +325,25 @@ export class KRUmnik  {
 
                     br.v=_br.v+(_br.v1-_br.v)*ay[j];
                     br.v1=_br.v+(_br.v1-_br.v)*ay[j+1];
-                    razArr.arBig[j][i]=br;  
-                    
-                    if(j==0)br.bool[0]=_br.bool[0];
-                    if(i==ax.length-2)br.bool[1]=_br.bool[1];    
-                    if(j==ay.length-2)br.bool[2]=_br.bool[2];       
-                    if(i==0)br.bool[3]=_br.bool[3];
+                    razArr.arBig[j][i]=br;
 
+                    if (_br.sides) {
+                        const {sides} = _br;
+                        sides.forEach(item => {
+                            const {size, side} = item;
+                            console.log(_br.idArr, "---", br.idArr, side, _win)
+                        })
+                    } 
                     
                     if(i==rx&&j==ry){                        
                         if(bbb==true)ar.push(br) 
                     }else{
                         ar.push(br) 
-                        if(j==ry){
-                            if(i+1==rx)br.bool1[1]=true;
-                            if(i-1==rx)br.bool1[3]=true;
-                        }
-                        if(i==rx){
-                            if(j+1==ry)br.bool1[2]=true;
-                            if(j-1==ry)br.bool1[0]=true;
-                        }
                     }
-                    
+
+                    if (this.par.isAdjacent(br, _win)) {
+                        this.par.getMatchEdges(br, _win)
+                    }  
                 }
             }
 
@@ -433,75 +430,56 @@ export class KRUmnik  {
         }
 
         this.drawStroke = function(box) {
-            if (box.opt != null) {
-                const { side, size, isLeft, isDown } = box.opt;
-                if (side === 0) {
-                    vertices.push(
-                        isLeft ? box.x+box.w : box.x+box.w-size,
-                        box.y+box.h,
-                        0,
-                        isLeft ? box.x + size : box.x,
-                        box.y+box.h,
-                        0
-                    )
-                }
+            if (box.sides.length) {
+                const { sides } = box;
+                sides.forEach(el => {
+                    const {side, size , isLeft, isDown} = el;
 
-                if (side === 1) {
-                    vertices.push(
-                        box.x,
-                        isDown ? box.y+box.h-size : box.y+box.h,
-                        0,
-                        box.x,
-                        isDown ? box.y : box.y+size,
-                        0
-                    )
-                }
-
-                if (side === 2) {
-                    vertices.push(
-                        isLeft ? box.x+size : box.x,
-                        box.y,
-                        0,
-                        isLeft ? box.x+box.w : box.x+box.w-size,
-                        box.y,
-                        0
-                    )
-                }
-
-                if (side === 3) {
-                    vertices.push(
-                        box.x+box.w,
-                        isDown ? box.y : box.y + size,
-                        0,
-                        box.x+box.w,
-                        isDown ? box.y+box.h-size : box.y+box.h,
-                        0
-                    )
-                }
+                    if (side === 0) {
+                        vertices.push(
+                            isLeft ? box.x+box.w : box.x+box.w-size,
+                            box.y+box.h,
+                            0,
+                            isLeft ? box.x + size : box.x,
+                            box.y+box.h,
+                            0
+                        )
+                    }
+    
+                    if (side === 1) {
+                        vertices.push(
+                            box.x,
+                            isDown ? box.y+box.h-size : box.y+box.h,
+                            0,
+                            box.x,
+                            isDown ? box.y : box.y+size,
+                            0
+                        )
+                    }
+    
+                    if (side === 2) {
+                        vertices.push(
+                            isLeft ? box.x+size : box.x,
+                            box.y,
+                            0,
+                            isLeft ? box.x+box.w : box.x+box.w-size,
+                            box.y,
+                            0
+                        )
+                    }
+    
+                    if (side === 3) {
+                        vertices.push(
+                            box.x+box.w,
+                            isDown ? box.y : box.y + size,
+                            0,
+                            box.x+box.w,
+                            isDown ? box.y+box.h-size : box.y+box.h,
+                            0
+                        )
+                    }
+                })
             }
-                
-
-            // if(box.boolNa==true){
-            //     if(box.boolPoli==true){
-            //         vertices.push(
-            //             box.x,
-            //             box.y,
-            //             0,
-            //             box.x+box.w,
-            //             box.y+box.h,
-            //             0
-            //         )
-            //     }else{
-            //         vertices.push(
-            //             box.x+box.w,
-            //             box.ysetGeom,
-            //             0,
-            //             box.x,
-            //             box.y,
-            //             0
-            //         )
-            //     }
-            // } 
         }
 
         this.setGeomLineB=function(box){ 
@@ -600,8 +578,6 @@ export class KRUmnik  {
                 }
                 //this.sGm(0,3,2)
             }
-           
-            
         }
 
         this.sGm=function(p,p1,p2){
@@ -624,14 +600,13 @@ export class KRUmnik  {
                 this.sGmL(p,true)                
                 this.sGmL(p2,true)   
             }
-           
         }
 
         this.sGmL=function(p,b){
             if(b==true){
-               normal.push(0,0,1)
+                normal.push(0,0,1)
             }else{
-               normal.push(0,0,-1) 
+                normal.push(0,0,-1) 
             }
 
             if(p==0){
@@ -681,7 +656,6 @@ export class KRUmnik  {
                 )
             }
         }
-
         /////////////////////////////////////////////
         /////////////////////////////////////////////
     }
