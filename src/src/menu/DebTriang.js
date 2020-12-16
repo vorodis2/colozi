@@ -102,9 +102,16 @@ export class DebTriang  {
                 this.lineBasicMaterial1
             )
             this.cont3d.add(this.lineSegments1);
-            this.par.visi3D.zume=100 
+            this.par.visi3D.zume=10 
             this.par.visi3D.rotationX=0;//-1.56
             this.par.visi3D.rotationZ=0;
+
+                
+            this.mesh=[]
+            for (let index = 0; index < 6; index++) {
+                this.mesh[index] = new THREE.Mesh(new THREE.SphereBufferGeometry( 0.2, 32, 32 ))
+                this.cont3d.add(this.mesh[index]);
+            }
             this.drag()
         }
 
@@ -122,12 +129,33 @@ export class DebTriang  {
 
             this.plXZ1.clear();
             this.plXZ1.addLine(gt.t1[0],gt.t1[1]);
-            this.plXZ1.addLine(gt.t1[1],gt.t1[2]);
-            this.plXZ1.addLine(gt.t1[2],gt.t1[0]);
-            this.plXZ1.upDate();
+            //this.plXZ1.addLine(gt.t1[1],gt.t1[2]);
+            //this.plXZ1.addLine(gt.t1[2],gt.t1[0]);
+            
             this.par.visi3D.intRend=1;
 
             gt.upDate();
+
+            this.plXZ1.addLine(gt.point,gt.point1);
+            this.plXZ1.upDate();
+
+            this.mesh[0].position.set(gt.tri[0][0],gt.tri[0][1],gt.tri[0][2]);
+            this.mesh[1].position.set(gt.tri[1][0],gt.tri[1][1],gt.tri[1][2]);
+            this.mesh[2].position.set(gt.tri[2][0],gt.tri[2][1],gt.tri[2][2]);
+            this.mesh[3].scale.set(0.2,0.2,0.2)
+            this.mesh[3].position.set(gt.pt.x, gt.pt.y, gt.pt.z);
+            this.mesh[4].position.set(gt.pt.x+gt.dir.x,   gt.pt.y+gt.dir.y,   gt.pt.z+gt.dir.z);
+
+
+            if(gt.out == null){
+                this.mesh[5].scale.set(0.2,0.2,0.2)
+            }else{
+                this.mesh[5].scale.set(2,2,2)
+                this.mesh[5].position.set(gt.out[0], gt.out[1], gt.out[2]);
+            }
+
+            
+            
             dp.clear();
 
             dp.dLineParam(0,100,ww,100,0,0.5);
