@@ -2,29 +2,29 @@ const path = require('path');
 const webpack = require('webpack');
 
  let conf = {
-  	entry: './src/index.js',
-  	output: {
-    	path: path.resolve(__dirname, 'build'),
-		filename: 'p20.min.js',
-		publicPath: 'build/'
-  	},
-  	devServer: {
-		overlay: true
-  	},
+	entry: './src/index.js',
+	output: {
+		path: path.resolve(__dirname, 'build'),
+	filename: 'p20.min.js',
+	publicPath: 'build/'
+	},
+	devServer: {
+	overlay: true
+	},
 	module: {
 		rules: [
-	      {
-	        test: /\.js$/,
-	        exclude: /node_modules/,
-	        use: {
-	          loader: "babel-loader"
-	        }
-	      }
-	    ]
+				{
+					test: /\.js$/,
+					exclude: /node_modules/,
+					use: {
+						loader: "babel-loader"
+					}
+				}
+			]
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin()
-    ],
+		],
 	devtool: 'eval-sourcemap'
 };
 
