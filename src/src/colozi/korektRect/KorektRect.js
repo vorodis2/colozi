@@ -16,7 +16,7 @@ export class KorektRect  {
         this.pS={x:0,y:0,w:100,h:100}//Параметры текстурировнаия и начало энного
 
 
-        this.rect={x:0,y:0,w:700,h:300};
+        this.rect={x:0,y:0,w:10,h:300};
 
 
         this.r={x:0,y:0,w:10,h:10,type:0};
@@ -33,11 +33,15 @@ export class KorektRect  {
             {x:100,y:100,w:100,h:100},
             {x:300,y:100,w:100,h:100}*/
         ];
-        this.arrWinDin=[];
+        this.arrWinDin=[
+            
+        ];
 
         
 
-        this.arrLine=[];
+        this.arrLine=[
+            {p:{x:0,y:-100},p1:{x:0,y:-100}}
+        ];
 
 
         this.calc=new Calc();
@@ -330,12 +334,11 @@ export class KorektRect  {
             }
             
             for (j = 0; j < this.sahL; j++) {
-                rdBig=this.arrayL[j]
-            
+                rdBig=this.arrayL[j]            
                 for (i = this.arrDin.length-1; i >=0 ; i--) {
                     this.reshikLine1(i,this.arrDin[i],rdBig)
                 }
-            }           
+            }          
         }
 
     
@@ -355,7 +358,7 @@ export class KorektRect  {
                     return
                 }                
             }
-
+            trace(_br,rd)
             rez=this.krUmnik.isRectLine(_br,rd);
 
             if(rez.tip==0){ //в нутри           

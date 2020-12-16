@@ -169,6 +169,7 @@ export class KRUmnik  {
             if(pl0.x>pl1.x)_point=this.par.calc.isPointInLin(pl0,pl1,aR[0],99999999999,99999999999)//берем нормаль с какой стороны коробка 
             else _point=this.par.calc.isPointInLin(pl1,pl0,aR[0],99999999999,99999999999)//берем нормаль с какой стороны коробка                       
             rezult.pBool=true
+
             if(_point.z>0)rezult.pBool=false
             
 
@@ -331,7 +332,7 @@ export class KRUmnik  {
                         const {sides} = _br;
                         sides.forEach(item => {
                             const {size, side} = item;
-                            console.log(_br.idArr, "---", br.idArr, side, _win)
+                            
                         })
                     } 
                     

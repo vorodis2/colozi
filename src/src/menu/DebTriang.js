@@ -25,12 +25,14 @@ export class DebTriang  {
 
         var col=0xff0000
         var col1=0x00ff00
+        var col2=0x0000ff
         var dp
         var gt=undefined
         var ww=800
         var hh=400
         self.visiPixi
-        this.init=function(){
+        var oSave
+        this.init=function(sss){
             if(this.window!=undefined)return;
             this.window=new DWindow(this.dCont,0,0,"xz");
             this.window.width=ww
@@ -50,6 +52,14 @@ export class DebTriang  {
             self.visiPixi.sizeWindow(this.window.width,this.window.height)
             
             gt=new GronTriangle();
+
+            if(sss!=undefined){
+                oSave=JSON.parse(sss)
+                trace(oSave)
+                gt.t=oSave.tr
+                gt.t1=oSave.tr1
+            }
+
             setTimeout(function() {self.init2()}, 1000);
         }
         var win
@@ -103,6 +113,14 @@ export class DebTriang  {
                 this.lineBasicMaterial1
             )
             this.cont3d.add(this.lineSegments1);
+
+             this.lineBasicMaterial2 = new THREE.LineBasicMaterial( { color: col2, linewidth: 10});
+            this.plXZ2=new PlaneXZ();
+            this.lineSegments2 = new THREE.LineSegments(
+                this.plXZ2,
+                this.lineBasicMaterial2
+            )
+            this.cont3d.add(this.lineSegments2);
             this.par.visi3D.zume=100 
             this.par.visi3D.rotationX=0;//-1.56
             this.par.visi3D.rotationZ=0;
@@ -140,11 +158,15 @@ export class DebTriang  {
 
 
             let r=gt.setT();
-
+            this.plXZ2.clear();
+            trace(">>>>>>>>>>>>>>>>>>>>>>>>>",r)
             if(r!=null){
-                this.mesh[0].scale.set(20,20,20)
+                 this.plXZ2.addLine(r[0],r[0]);
+                this.plXZ2.addLine(r[1],r[1]);
+                this.plXZ2.upDate();
+                this.mesh[0].scale.set(200,200,200)
                 this.mesh[0].position.set(r[0].x,r[0].y,r[0].z);
-                this.mesh[1].scale.set(20,20,20)
+                this.mesh[1].scale.set(200,200,200)
                 this.mesh[1].position.set(r[1].x,r[1].y,r[1].z);
                
             }else{
@@ -240,7 +262,8 @@ export class DebTriang  {
         } 
 
         this.setObjLoc=function(o){             
-            if(gt)gt.setObj(o)
+            if(gt)if(oSave==undefined)gt.setObj(o)
+
             this.init2()    
         }
         this.getObjLoc=function(o){          

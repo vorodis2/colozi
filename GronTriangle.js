@@ -189,8 +189,7 @@ export class GronTriangle  {
                 dd1=Math.sqrt(Math.pow((p.x - rezVect.x), 2) + Math.pow((p.y - rezVect.y), 2) + Math.pow((p.z - rezVect.z), 2))
                 if(dd<dd1){
                     return out;
-                }
-                
+                }                
             }*/
 
             if(b1===undefined){

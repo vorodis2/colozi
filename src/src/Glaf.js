@@ -99,20 +99,21 @@ export class Glaf  {
         },false);
 
 
-        this.debKR=new DebKR(self.dCont,function(s,p,p1){
+      /*  this.debKR=new DebKR(self.dCont,function(s,p,p1){
             if(s=="saveLocal") self.saveLoacal();
         },self.visi3D);
         self.devBig.addCont(this.debKR, this.debKR.dCont,"DebKR",undefined,undefined);
         this.devBig.index=0;
-        this.debKR.init();
+        this.debKR.init();*/
 
 
-      /*  ///////////////////////////////////////////////
+        ///////////////////////////////////////////////
         this.debTriang=new DebTriang(this,function(s,p,p1){
             self.saveLoacal();
         })
-        this.debTriang.init();
-        /////////////////////////////////////////////////*/
+        this.debTriang.init('{"tr":[{"x":-571.5540327620582,"y":-483.65895797909917,"z":-382.25},{"x":18.445967237941773,"y":-23.658957979099114,"z":0},{"x":-571.5540327620582,"y":-483.65895797909917,"z":0}],"tr1":[{"x":-200,"y":0,"z":-300},{"x":-450,"y":-350,"z":-138},{"x":160,"y":-350,"z":-251}]}');
+
+        /////////////////////////////////////////////////
 
         
  
