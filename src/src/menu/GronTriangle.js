@@ -32,7 +32,9 @@ export class GronTriangle  {
         var m=0.5
         this.upDate=function(t,t1){
 
-            this.point.x=this.t1[0].x;
+
+            
+            /*this.point.x=this.t1[0].x;
             this.point.y=this.t1[0].y;
             this.point.z=this.t1[0].z;
 
@@ -47,7 +49,7 @@ export class GronTriangle  {
             p2.set( this.t[2].x,this.t[2].y,this.t[2].z) 
 
             trace(p,p1,p2)
-            this.intersectTriangle(p,p1,p2)
+            this.intersectTriangle(p,p1,p2)*/
         }
 
 
