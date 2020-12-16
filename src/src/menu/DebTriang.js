@@ -5,9 +5,10 @@ import { KorektRect } from '../colozi/korektRect/KorektRect.js';//пикси о�
 import { VisiPixi } from '../libMy/VisiPixi.js';
 
 import {  GronTriangle } from './GronTriangle.js';
+
 export class DebTriang  {
     constructor(par, fun) {
-    	this.type="DebTriang";
+        this.type="DebTriang";
 		var self=this;
 		this.par=par
 		this.fun=fun

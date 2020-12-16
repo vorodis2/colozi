@@ -28,7 +28,7 @@ var pvec = [0,0,0];
 var qvec = [0,0,0];
 
 
-function intersectTriangle(out, pt, dir, tri) {
+function intersectTriangle(out, pt, dir, tri, b) {
     sub(edge1, tri[1], tri[0]);
     sub(edge2, tri[2], tri[0]);
     
@@ -38,11 +38,22 @@ function intersectTriangle(out, pt, dir, tri) {
     if (det < EPSILON) return null;
     sub(tvec, pt, tri[0]);
     var u = dot(tvec, pvec);
-    if (u < 0 || u > det) return null;
+
+    if (b) {
+        if (u <= 0 || u >= det) return null;
+    } else {
+        if (u < 0 || u > det) return null;
+    }
+
     cross(qvec, tvec, edge1);
     var v = dot(dir, qvec);
-    if (v < 0 || u + v > det) return null;
-    
+
+    if (b) {
+        if (v <= 0 || u + v >= det) return null;
+    } else {
+        if (v < 0 || u + v > det) return null;
+    }
+
     var t = dot(edge2, qvec) / det;
     out[0] = pt[0] + t * dir[0];
     out[1] = pt[1] + t * dir[1];
@@ -83,7 +94,7 @@ export class GronTriangle  {
                 [this.t[2].x, this.t[2].y, this.t[2].z],
             )
 
-            this.out = this.isIntersect(this.t1[0], this.t1[1])
+            this.out = this.isIntersect(this.t1[0], this.t1[1], true)
             console.log(this.out)
             
 
@@ -103,12 +114,12 @@ export class GronTriangle  {
         var out
         var pt = new THREE.Vector3()
         var dir = new THREE.Vector3()
-        this.isIntersect = function(p, p1){
+        this.isIntersect = function(p, p1, b){
             pt.set(p.x, p.y, p.z);
             dir.set(p1.x, p1.y, p1.z);
             dir.sub(pt).normalize();
 
-            out = intersectTriangle([], Object.values(pt), Object.values(dir), this.tria)
+            out = intersectTriangle([], Object.values(pt), Object.values(dir), this.tria, b)
 
             if (out != null) return out;
             return null;
