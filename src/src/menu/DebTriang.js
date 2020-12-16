@@ -161,12 +161,12 @@ export class DebTriang  {
             this.plXZ2.clear();
             trace(">>>>>>>>>>>>>>>>>>>>>>>>>",r)
             if(r!=null){
-                 this.plXZ2.addLine(r[0],r[0]);
-                this.plXZ2.addLine(r[1],r[1]);
+                 this.plXZ2.addLine(r[0],r[1]);
+                
                 this.plXZ2.upDate();
-                this.mesh[0].scale.set(200,200,200)
+                this.mesh[0].scale.set(20,20,20)
                 this.mesh[0].position.set(r[0].x,r[0].y,r[0].z);
-                this.mesh[1].scale.set(200,200,200)
+                this.mesh[1].scale.set(20,20,20)
                 this.mesh[1].position.set(r[1].x,r[1].y,r[1].z);
                
             }else{
