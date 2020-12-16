@@ -29,9 +29,9 @@ export class KorektRect  {
         this.arrDinL=[];
 
         this.coliz=null
-        this.arrWin=[
+        this.arrWin=[/*
             {x:100,y:100,w:100,h:100},
-            {x:300,y:100,w:100,h:100}
+            {x:300,y:100,w:100,h:100}*/
         ];
         this.arrWinDin=[];
 
