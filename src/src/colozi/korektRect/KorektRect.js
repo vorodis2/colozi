@@ -13,14 +13,14 @@ export class KorektRect  {
         this.boolDebug=true    
         this.funRender=undefined
 
-        this.pS={x:0,y:0,w:1000,h:1000}//Параметры текстурировнаия и начало энного
+        this.pS={x:0,y:0,w:100,h:100}//Параметры текстурировнаия и начало энного
 
 
-        this.rect={x:0,y:0,w:7000,h:3000};
+        this.rect={x:0,y:0,w:700,h:300};
 
 
-        this.r={x:0,y:0,w:100,h:100,type:0};
-        this.r1={x:0,y:0,w:100,h:100,type:0};
+        this.r={x:0,y:0,w:10,h:10,type:0};
+        this.r1={x:0,y:0,w:10,h:10,type:0};
 
         this.array=[];
         this.arrayL=[];
@@ -30,8 +30,8 @@ export class KorektRect  {
 
         this.coliz=null
         this.arrWin=[
-            {x:1000,y:1000,w:1000,h:1000},
-            {x:3000,y:1000,w:1000,h:1000}
+            {x:100,y:100,w:100,h:100},
+            {x:300,y:100,w:100,h:100}
         ];
         this.arrWinDin=[];
 

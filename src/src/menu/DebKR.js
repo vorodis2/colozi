@@ -77,10 +77,12 @@ export class DebKR  {
             		this.slider2.value=kr.pS.w;
             		this.slider3.value=kr.pS.h;
 
-            		this.sli.value=kr.arrLine[0].p.x;
-            		this.sli1.value=kr.arrLine[0].p.y;
-            		this.sli2.value=kr.arrLine[0].p1.x;
-            		this.sli3.value=kr.arrLine[0].p1.y;
+                    if(kr.arrLine[0]){
+                		this.sli.value=kr.arrLine[0].p.x;
+                		this.sli1.value=kr.arrLine[0].p.y;
+                		this.sli2.value=kr.arrLine[0].p1.x;
+                		this.sli3.value=kr.arrLine[0].p1.y;
+                    }
 				}
 				this.sss();
 				//kr.korektGrid();
@@ -97,11 +99,13 @@ export class DebKR  {
             	o.pS.h=kr.pS.h
 
             	o.al0={}
-            	o.al0.x=kr.arrLine[0].p.x
-            	o.al0.y=kr.arrLine[0].p.y
+                if(kr.arrLine[0]){
+                	o.al0.x=kr.arrLine[0].p.x
+                	o.al0.y=kr.arrLine[0].p.y
 
-            	o.al0.x1=kr.arrLine[0].p1.x
-            	o.al0.y1=kr.arrLine[0].p1.y
+                	o.al0.x1=kr.arrLine[0].p1.x
+                	o.al0.y1=kr.arrLine[0].p1.y
+                }
             }
             
             return o
@@ -121,7 +125,7 @@ export class DebKR  {
                 this.setKR(new KorektRect());
 
                 this.visi3D.groupObject.add(this.cont3d); 
-                this.visi3D.zume=10000 
+                this.visi3D.zume=1000 
                 this.visi3D.rotationX=0;//-1.56
                 this.visi3D.rotationZ=0;  
             }
