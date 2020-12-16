@@ -87,13 +87,19 @@ export class GronTriangle  {
             this.setTriangle(this.t[0],this.t[1],this.t[2])
             for (var i = 0; i < this.t1.length; i++) {
                
-                r=this.isIntersect(this.t1[i],this.t1[(i+1)%3],true)
-                if(r!==null){
+                if(i==0)r=this.isIntersect(this.t1[0],this.t1[1],true)
+                if(i==1)r=this.isIntersect(this.t1[1],this.t1[2],true)
+                if(i==2)r=this.isIntersect(this.t1[2],this.t1[0],true)
+               /*  if(i==0)r=this.isIntersect(this.t1[1],this.t1[0],true)
+                if(i==1)r=this.isIntersect(this.t1[2],this.t1[1],true)
+                if(i==2)r=this.isIntersect(this.t1[0],this.t1[2],true)*/   
+                if(r!==null){ 
+
                     this.arrPoint[this.arrPoint.length]=this.arrPCesh[this.arrPoint.length];
                     this.arrPoint[this.arrPoint.length-1].x=r[0]
                     this.arrPoint[this.arrPoint.length-1].y=r[1]
                     this.arrPoint[this.arrPoint.length-1].z=r[2]
-                  
+                   
                     if(this.arrPoint.length==2) return this.arrPoint
                 }                
             }
@@ -101,6 +107,10 @@ export class GronTriangle  {
             for (var i = 0; i < this.t.length; i++) {
                 
                 r=this.isIntersect(this.t[i],this.t[(i+1)%3])
+
+                if(i==0)r=this.isIntersect(this.t[0],this.t[1],true)
+                if(i==1)r=this.isIntersect(this.t[1],this.t[2],true)
+                if(i==2)r=this.isIntersect(this.t[2],this.t[0],true)
                 
                 if(r!==null){
                     this.arrPoint[this.arrPoint.length]=this.arrPCesh[this.arrPoint.length];
@@ -129,10 +139,8 @@ export class GronTriangle  {
                 [this.t[1].x, this.t[1].y, this.t[1].z],
                 [this.t[2].x, this.t[2].y, this.t[2].z],
             )
-            this.out = this.isIntersect(this.t1[0], this.t1[1], true)
-          
-            
-
+            this.out = this.isIntersect(this.t1[1], this.t1[0], true)
+            console.log(this.out)
 
             this.tri = [[this.t[0].x,this.t[0].y,this.t[0].z],[this.t[1].x,this.t[1].y,this.t[1].z],[this.t[2].x,this.t[2].y,this.t[2].z]]   // заполнить точками триугольника
             this.pt = new THREE.Vector3(this.t1[0].x, this.t1[0].y, this.t1[0].z) 
@@ -163,19 +171,41 @@ export class GronTriangle  {
         var out
         var pt = new THREE.Vector3()
         var dir = new THREE.Vector3()
-        this.isIntersect = function(p, p1, b){
-        
-
+        var dd,dd1, cc
+        var rezVect = new THREE.Vector3()
+        this.isIntersect = function(p, p1, b, b1){
+            dd=Math.sqrt(Math.pow((p1.x-p.x), 2) + Math.pow((p1.y-p.y), 2) + Math.pow((p1.z - p.z), 2))
             pt.set(p.x, p.y, p.z);
             dir.set(p1.x, p1.y, p1.z);
             dir.sub(pt).normalize();
+            b=false;
 
             out = intersectTriangle([], Object.values(pt), Object.values(dir), this.tria, b)
+            if (out != null) {
+                rezVect.set(out[0],out[1],out[2])
+                dd1=Math.sqrt(Math.pow((p.x - rezVect.x), 2) + Math.pow((p.y - rezVect.y), 2) + Math.pow((p.z - rezVect.z), 2))
+                if(dd>dd1){
+                    return out;
+                }
+                
+            }
 
-            if (out != null) return out;
+            if(b1===undefined){
+                pt.set(p1.x, p1.y, p1.z);
+                dir.set(p.x, p.y, p.z);
+                dir.sub(pt).normalize();
+
+                out = intersectTriangle([], Object.values(pt), Object.values(dir), this.tria, b)
+                if (out != null) {
+                    rezVect.set(out[0],out[1],out[2])
+                    dd1=Math.sqrt(Math.pow((p1.x - rezVect.x), 2) + Math.pow((p1.y - rezVect.y), 2) + Math.pow((p1.z - rezVect.z), 2))
+                    if(dd>dd1){
+                        return out; 
+                    }
+                }
+            }
             return null;
         }
-
 
         this.setObj=function(o){             
             this.t=o.t
@@ -187,7 +217,6 @@ export class GronTriangle  {
             o.t1=this.t1;            
             return o
         }
-
     }
 }
 

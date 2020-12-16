@@ -108,11 +108,11 @@ export class DebTriang  {
             this.par.visi3D.rotationZ=0;
 
                 
-            this.mesh=[]
-            for (let index = 0; index < 6; index++) {
-                this.mesh[index] = new THREE.Mesh(new THREE.SphereBufferGeometry( 0.2, 32, 32 ))
-                this.cont3d.add(this.mesh[index]);
-            }
+            // this.mesh=[]
+            // for (let index = 0; index < 6; index++) {
+            //     this.mesh[index] = new THREE.Mesh(new THREE.SphereBufferGeometry( 0.2, 32, 32 ))
+            //     this.cont3d.add(this.mesh[index]);
+            // }
             this.drag()
         }
 
@@ -130,8 +130,9 @@ export class DebTriang  {
 
             this.plXZ1.clear();
             this.plXZ1.addLine(gt.t1[0],gt.t1[1]);
-            this.plXZ1.addLine(gt.t1[1],gt.t1[2]);
-            this.plXZ1.addLine(gt.t1[2],gt.t1[0]);
+
+            // this.plXZ1.addLine(gt.t1[1],gt.t1[2]);
+            // this.plXZ1.addLine(gt.t1[2],gt.t1[0]);
             this.plXZ1.upDate();
 
             this.par.visi3D.intRend=1;
@@ -139,18 +140,18 @@ export class DebTriang  {
             gt.upDate();
 
 
-            let r=gt.setT();
+            // let r=gt.setT();
 
-            if(r!=null){
-                this.mesh[0].scale.set(20,20,20)
-                this.mesh[0].position.set(r[0].x,r[0].y,r[0].z);
-                this.mesh[1].scale.set(20,20,20)
-                this.mesh[1].position.set(r[1].x,r[1].y,r[1].z);
+            // if(r!=null){
+            //     this.mesh[0].scale.set(2,2,2)
+            //     this.mesh[0].position.set(r[0].x,r[0].y,r[0].z);
+            //     this.mesh[1].scale.set(2,2,2)
+            //     this.mesh[1].position.set(r[1].x,r[1].y,r[1].z);
                
-            }else{
-                this.mesh[0].scale.set(2,2,2)
-                this.mesh[1].scale.set(2,2,2)
-            }
+            // }else{
+            //     this.mesh[0].scale.set(2,2,2)
+            //     this.mesh[1].scale.set(2,2,2)
+            // }
 
             
 
