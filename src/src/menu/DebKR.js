@@ -78,10 +78,10 @@ export class DebKR  {
             		this.slider3.value=kr.pS.h;
 
                     if(kr.arrLine[0]){
-                		this.sli.value=kr.arrLine[0].p.x;
-                		this.sli1.value=kr.arrLine[0].p.y;
-                		this.sli2.value=kr.arrLine[0].p1.x;
-                		this.sli3.value=kr.arrLine[0].p1.y;
+                	    this.sli.value=kr.arrLine[0].p.x;
+                	    this.sli1.value=kr.arrLine[0].p.y;
+                	    this.sli2.value=kr.arrLine[0].p1.x;
+                	    this.sli3.value=kr.arrLine[0].p1.y;
                     }
 				}
 				this.sss();
