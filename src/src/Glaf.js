@@ -98,21 +98,21 @@ export class Glaf  {
             self.saveLoacal();
         },false);
 
-/*
-        this.debKR=new DebKR(this,function(s,p,p1){
+
+        this.debKR=new DebKR(self.dCont,function(s,p,p1){
             if(s=="saveLocal") self.saveLoacal();
-        });
+        },self.visi3D);
         self.devBig.addCont(this.debKR, this.debKR.dCont,"DebKR",undefined,undefined);
         this.devBig.index=0;
-        this.debKR.init();*/
+        this.debKR.init();
 
 
-        ///////////////////////////////////////////////
+      /*  ///////////////////////////////////////////////
         this.debTriang=new DebTriang(this,function(s,p,p1){
             self.saveLoacal();
         })
         this.debTriang.init();
-        /////////////////////////////////////////////////
+        /////////////////////////////////////////////////*/
 
         
  

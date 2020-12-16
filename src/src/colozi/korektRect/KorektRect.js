@@ -37,10 +37,7 @@ export class KorektRect  {
 
         
 
-        this.arrLine=[
-            {p:{x:0,y:-200},p1:{x:5900,y:400}}/*,
-           // {p:{x:4000,y:1000},p1:{x:1000,y:2000}}*/
-        ];
+        this.arrLine=[];
 
 
         this.calc=new Calc();

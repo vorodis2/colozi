@@ -4,23 +4,23 @@ import { SpDebugPixi } from './SpDebugPixi.js';//пикси отрисовка
 import { KorektRect } from '../colozi/korektRect/KorektRect.js';//пикси отрисовка
 import { VisiPixi } from '../libMy/VisiPixi.js';
 export class DebKR  {
-    constructor(par, fun) {
+    constructor(dCont, fun, visi3D) {
     	this.type="DebKR";
 		var self=this;
-		this.par=par
+		this.visi3D=visi3D
 		this.fun=fun
 
 		
-		this.dC=par.dCont;
+		
         this._active = false;
         this._otstup = 5;
         this._width=600;
         this._height=600;
 
-        var scale=0.1;
+        var scale=1;
         var otstup=50; 
 
-        this.dCont=new DCont(this.dC);
+        this.dCont=new DCont(dCont);
 
         this.pan = new DPanel (this.dCont,otstup,otstup);
         this.pan.width = this._width;
@@ -32,18 +32,20 @@ export class DebKR  {
 		var date;
         this.sss=function(){
         	date=new Date().getTime()
+            let bb=kr.boolDebug
+            kr.boolDebug=true
         	for (var i = 0; i < self.sliItar.value; i++) {
         	
         		kr.korektGrid()
         	}
         	
-        	
+        	kr.boolDebug=bb
         	this.saveTime()
         }
 
         this.save1=function(){  
              
-            fun("saveLocal")      
+            if(this.fun)this.fun("saveLocal")      
         } 
         this.sah=0;
         this.saveTime=function(){
@@ -109,15 +111,22 @@ export class DebKR  {
         this.init=function(){
             if(this.window!=undefined)return;
             this.window=new DWindow(this.dCont);
-            this.setKR(new KorektRect());
+            
+          
 
 
             this.cont3d=new THREE.Object3D();
 
-            this.par.visi3D.groupObject.add(this.cont3d); 
-			this.par.visi3D.zume=10000 
-	        this.par.visi3D.rotationX=0;//-1.56
-	        this.par.visi3D.rotationZ=0;
+            if(this.visi3D){
+                this.setKR(new KorektRect());
+
+                this.visi3D.groupObject.add(this.cont3d); 
+                this.visi3D.zume=10000 
+                this.visi3D.rotationX=0;//-1.56
+                this.visi3D.rotationZ=0;  
+            }
+            
+
 
 
             this.lineBasicMaterial = new THREE.LineBasicMaterial( { color: 0xff0000, linewidth: 10});
@@ -141,11 +150,11 @@ export class DebKR  {
 	        this.cont3d.add(this.mesh);
 
 
-            this.window.width=222
-            this.slider = new DSliderBig (this.window.content, 2, 2, function(){kr.pS.x=this.value;self.sss()}, 'x', -10000, 10000);
-            this.slider1 = new DSliderBig (this.window.content, 2, 2+52*1, function(){kr.pS.y=this.value;self.sss()}, 'y', -10000, 10000);
-            this.slider2 = new DSliderBig (this.window.content, 2, 2+52*2, function(){kr.pS.w=this.value;self.sss()}, 'w', 100, 10000);  
-            this.slider3 = new DSliderBig (this.window.content, 2, 2+52*3, function(){kr.pS.h=this.value;self.sss()}, 'h', 100, 10000);
+            this.window.width=200
+            this.slider = new DSliderBig (this.window.content, 2, 2, function(){kr.pS.x=this.value;self.sss()}, 'x', -1000, 1000);
+            this.slider1 = new DSliderBig (this.window.content, 2, 2+52*1, function(){kr.pS.y=this.value;self.sss()}, 'y', -1000, 1000);
+            this.slider2 = new DSliderBig (this.window.content, 2, 2+52*2, function(){kr.pS.w=this.value;self.sss()}, 'w', 10, 1000);  
+            this.slider3 = new DSliderBig (this.window.content, 2, 2+52*3, function(){kr.pS.h=this.value;self.sss()}, 'h', 10, 1000);
 
             this.slider.width=this.slider1.width=this.slider2.width=this.slider3.width=this.window.width-4
             this.slider.value=kr.pS.x;
@@ -155,29 +164,29 @@ export class DebKR  {
             this.window.height=2+52*4; 
 
 
-            this.win=new DWindow(this.dCont); 
-            this.win.width=222;
+            this.win=new DWindow(this.dCont,400); 
+            this.win.width=200;
             this.sli = new DSliderBig (this.win.content, 2, 2, function(){
             	kr.arrLine[0].p.x=this.value;
             	if(kr.arrLine[1])kr.arrLine[1].p.x=this.value;
             	self.sss()
-        	}, 'x', -10000, 10000);
+        	}, 'x', -1000, 1000);
             this.sli1 = new DSliderBig (this.win.content, 2, 2+52*1, function(){
             	kr.arrLine[0].p.y=this.value;
             	if(kr.arrLine[1])kr.arrLine[1].p.y=this.value;
             	self.sss()
-            }, 'y', -10000, 10000);
+            }, 'y', -1000, 1000);
             this.sli2 = new DSliderBig (this.win.content, 2, 2+52*2, function(){                
                 kr.arrLine[0].p1.x=this.value;
                 self.sss();
-            }, 'x1', -10000, 10000); 
+            }, 'x1', -1000, 1000); 
 
             this.sli3 = new DSliderBig (this.win.content, 2, 2+52*3, function(){
             	
             	kr.arrLine[0].p1.y=this.value;
             	
             	self.sss()
-            }, 'y1', -10000, 10000);
+            }, 'y1', -1000, 1000);
 
             this.button = new DButton(this.win.content, 2, 2+52*4, 'revert', function(){
             	var x=kr.arrLine[0].p.x;
@@ -193,16 +202,19 @@ export class DebKR  {
 
 
             this.sli.width=this.sli1.width=this.sli2.width=this.sli3.width=this.win.width-4
-            this.sli.value=kr.arrLine[0].p.x;
-            this.sli1.value=kr.arrLine[0].p.y;
-            this.sli2.value=kr.arrLine[0].p1.x;
-            this.sli3.value=kr.arrLine[0].p1.y;
+            if(kr.arrLine[0]){
+                this.sli.value=kr.arrLine[0].p.x;
+                this.sli1.value=kr.arrLine[0].p.y;
+                this.sli2.value=kr.arrLine[0].p1.x;
+                this.sli3.value=kr.arrLine[0].p1.y;
+            }
+            
           
             this.win.height=2+52*5;
 
 
-            this.win1=new DWindow(this.dCont); 
-            this.win1.width=222;
+            this.win1=new DWindow(this.dCont,600); 
+            this.win1.width=200;
             var yy=2
             this.check = new DCheckBox(this.win1.content, 2, yy, 'нафиг дебаг', function(){
             	self.sss()
@@ -219,7 +231,7 @@ export class DebKR  {
 
             this.sliItar = new DSliderBig (this.win1.content, 2, yy, function(){
             	self.sss()
-            }, 'кол. итораций', 1, 2000);
+            }, 'кол. итораций', 1, 200);
             this.sliItar.width=this.win1.width-4
             this.sliItar.okrug=1;
             self.sliItar.value=1;
@@ -239,23 +251,23 @@ export class DebKR  {
                 self.sss()
             });
 
-            this.b0.width=this.b1.width=this.b2.width=32
-            trace("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+            this.b0.width=this.b1.width=this.b2.width=32;
+           
 
             yy+=34
 
 
             
            	this.button = new DButton(this.win1.content, 2, yy, 'add Random Line', function(){
-            	var ww=(1000+kr.rect.w)
-            	var hh=(1000+kr.rect.h)
+            	var ww=(100+kr.rect.w)
+            	var hh=(100+kr.rect.h)
             	kr.arrLine.push(
             		{p:{
-            			x:-500+Math.random()*ww,
-            			y:-500+Math.random()*hh
+            			x:-50+Math.random()*ww,
+            			y:-50+Math.random()*hh
             		},p1:{
-            			x:-500+Math.random()*ww,
-            			y:-500+Math.random()*hh
+            			x:-50+Math.random()*ww,
+            			y:-50+Math.random()*hh
             		}}
             		)
             	self.sss()
@@ -266,10 +278,10 @@ export class DebKR  {
             	var hh=(1000+kr.rect.h)
             	kr.arrWin.push(
             		{
-            			w:100+Math.random()*2000,
-            			h:100+Math.random()*2000,            		
-            			x:-500+Math.random()*ww,
-            			y:-500+Math.random()*hh
+            			w:10+Math.random()*200,
+            			h:10+Math.random()*200,            		
+            			x:-50+Math.random()*ww,
+            			y:-50+Math.random()*hh
             		}
             		)
             	self.sss()
@@ -338,19 +350,19 @@ export class DebKR  {
             }
 
             dp.clear()
-            dp.dRect(self.kr.rect,0x00ff00,40);
+            dp.dRect(self.kr.rect,0x00ff00,4);
 
             for (var i = 0; i < kr.arrDin.length; i++) {
                 self.dragBR(kr.arrDin[i])
             }
             for (var i = 0; i < kr.arrWin.length; i++)  {                
-                dp.dRect(kr.arrWin[i],0x0000ff,10);
+                dp.dRect(kr.arrWin[i],0x0000ff,1);
             }
           
             for (var i = 0; i < kr.arrLine.length; i++)  {                
-                dp.dPoint(kr.arrLine[i].p,40,0x0000ff,20);
-                dp.dLine(kr.arrLine[i].p,kr.arrLine[i].p1,0x0000ff,20);
-                dp.dPoint(kr.arrLine[i].p1,40,0x0000ff,20);
+                dp.dPoint(kr.arrLine[i].p,4,0x0000ff,2);
+                dp.dLine(kr.arrLine[i].p,kr.arrLine[i].p1,0x0000ff,2);
+                dp.dPoint(kr.arrLine[i].p1,4,0x0000ff,2);
             }   
             self.dragDD(kr.arrDin);
             self.visiPixi.render();
@@ -363,7 +375,7 @@ export class DebKR  {
 				self.cont3d.position.y=-self.kr.rect.h/2;
 				kr.setGeom(self.plXZ2,nGeom);
 
-				self.par.visi3D.intRend=1
+				if(self.visi3D)self.visi3D.intRend=1
 			}
 			var resss=new Date().getTime()-date
 
@@ -403,14 +415,14 @@ export class DebKR  {
         	}
 
         	for (var i = a1.length-1; i >=0; i--) {
-        		p.x=self.kr.rect.x-150
+        		p.x=self.kr.rect.x-15
         		p.y=a1[i]
         		dp.dText(p,""+Math.round(a1[i]));   
         	}
 
         	for (var i = a.length-1; i >=0; i--) {
         		p.x=a[i]
-        		p.y=-80
+        		p.y=-8
 
         		dp.dText(p,""+Math.round(a[i]));   
         	}      	
@@ -430,22 +442,22 @@ export class DebKR  {
             
            
             //грании
-            if(br.bool[0]==true)dp.dLineParam(br.x,br.y,br.x+br.w,br.y,0xff0000,20);           
-            if(br.bool[1]==true)dp.dLineParam(br.x+br.w,br.y,br.x+br.w,br.y+br.h,0xff0000,25);
-            if(br.bool[2]==true)dp.dLineParam(br.x+br.w,br.y+br.h,br.x,br.y+br.h,0xff0000,30);
-            if(br.bool[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0xff0000,35);  
+            if(br.bool[0]==true)dp.dLineParam(br.x,br.y,br.x+br.w,br.y,0xff0000,2);           
+            if(br.bool[1]==true)dp.dLineParam(br.x+br.w,br.y,br.x+br.w,br.y+br.h,0xff0000,2.5);
+            if(br.bool[2]==true)dp.dLineParam(br.x+br.w,br.y+br.h,br.x,br.y+br.h,0xff0000,3.0);
+            if(br.bool[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0xff0000,3.5);  
 
-            if(br.bool1[0]==true)dp.dLineParam(br.x,br.y,br.x+br.w,br.y,0x0000ff,40);           
-            if(br.bool1[1]==true)dp.dLineParam(br.x+br.w,br.y,br.x+br.w,br.y+br.h,0x0000ff,40)
-            if(br.bool1[2]==true)dp.dLineParam(br.x+br.w,br.y+br.h,br.x,br.y+br.h,0x0000ff,40);
-            if(br.bool1[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0x0000ff,40); 
+            if(br.bool1[0]==true)dp.dLineParam(br.x,br.y,br.x+br.w,br.y,0x0000ff,4.0);           
+            if(br.bool1[1]==true)dp.dLineParam(br.x+br.w,br.y,br.x+br.w,br.y+br.h,0x0000ff,4.0)
+            if(br.bool1[2]==true)dp.dLineParam(br.x+br.w,br.y+br.h,br.x,br.y+br.h,0x0000ff,4.0);
+            if(br.bool1[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0x0000ff,4.0); 
 
-            www=1
-            if(self.check2.value==true)www=10
+            www=0.1
+            if(self.check2.value==true)www=1
             col=0xaaaaaa
             
             if(br.boolNa==true){
-                www=50
+                www=5
                 col=0xff0000
 
             }
@@ -455,11 +467,11 @@ export class DebKR  {
             
             if(self.check2.value==true)return
             p.x=br.x+br.w/2;
-            p.y=br.y+70;
+            p.y=br.y+7;
             dp.dText(p,Math.round(br.u*100)/100+"u"+Math.round(br.u1*100)/100);   
             
             p.x=br.x+br.w-br.w/2;
-            p.y=br.y+br.h-70;
+            p.y=br.y+br.h-7;
             dp.dText(p,Math.round(br.v*100)/100+"v"+Math.round(br.v1*100)/100);
 
             p.x=br.x+br.w/2

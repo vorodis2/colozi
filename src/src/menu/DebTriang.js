@@ -103,7 +103,7 @@ export class DebTriang  {
                 this.lineBasicMaterial1
             )
             this.cont3d.add(this.lineSegments1);
-            this.par.visi3D.zume=10 
+            this.par.visi3D.zume=100 
             this.par.visi3D.rotationX=0;//-1.56
             this.par.visi3D.rotationZ=0;
 
@@ -130,12 +130,31 @@ export class DebTriang  {
 
             this.plXZ1.clear();
             this.plXZ1.addLine(gt.t1[0],gt.t1[1]);
-            //this.plXZ1.addLine(gt.t1[1],gt.t1[2]);
-            //this.plXZ1.addLine(gt.t1[2],gt.t1[0]);
-            
+            this.plXZ1.addLine(gt.t1[1],gt.t1[2]);
+            this.plXZ1.addLine(gt.t1[2],gt.t1[0]);
+            this.plXZ1.upDate();
+
             this.par.visi3D.intRend=1;
 
             gt.upDate();
+
+
+            let r=gt.setT();
+
+            if(r!=null){
+                this.mesh[0].scale.set(20,20,20)
+                this.mesh[0].position.set(r[0].x,r[0].y,r[0].z);
+                this.mesh[1].scale.set(20,20,20)
+                this.mesh[1].position.set(r[1].x,r[1].y,r[1].z);
+               
+            }else{
+                this.mesh[0].scale.set(2,2,2)
+                this.mesh[1].scale.set(2,2,2)
+            }
+
+            
+
+/*
 
             this.plXZ1.addLine(gt.point,gt.point1);
             this.plXZ1.upDate();
@@ -191,7 +210,7 @@ export class DebTriang  {
             //dp.dPointParam(gt.point1.x+100,gt.point1.y+300,1,0x0077ff,1)
 
             
-
+*/
             self.visiPixi.render();
             
             

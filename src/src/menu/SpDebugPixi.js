@@ -8,7 +8,7 @@ export class SpDebugPixi  {
 
     	this.color=0xaaaaaa
     	this.colorActiv=0xFF0000
-    	this.wL=10;
+    	this.wL=1;
     	this.al=1
     	this._alpha=1
 
@@ -35,7 +35,7 @@ export class SpDebugPixi  {
 		this.debagPoint = function (p, r, color, wL, a) {		
 			this.graphics = new PIXI.Graphics();
 			this.contentDebag.addChild(this.graphics);
-			r = r || 50;
+			r = r || 5;
 			if (color == undefined)color = this.color;
 			wL = wL || this.wL;
 
@@ -64,7 +64,7 @@ export class SpDebugPixi  {
 
 		var label, pp;
 		this.dText = function (p, text, color, s) {
-			var ss=s||4
+			var ss=s||0.4
 			if(aT[sT]==undefined){
 				aT[sT]= new PIXI.Container();
 	    		pp = new PIXI.Text('345634634',{ fontFamily : 'Arial'})
@@ -125,7 +125,7 @@ export class SpDebugPixi  {
 
 
 		this.dLinePosition = function (p, color) {
-			var rr = 20.5;
+			var rr = 2.5;
 			g.lineStyle(rr, color, this.al);
 
 			g.moveTo(p.p.x, p.p.y);
@@ -142,11 +142,7 @@ export class SpDebugPixi  {
 
 		this.dRect = function (r, color, wL) {
 			//if (this.debagOk(aP) == false) return;
-			r = r || 50;
-			if (r > 1000000) {
-				console.warn('Большой круг рисовать не буду', r);
-				return;
-			}
+			
 			if (color == undefined)color = 0xFFFFFF*Math.random();
 			wL = wL || this.wL;
 			let ww=r.w  ==undefined ? r.width : r.w
