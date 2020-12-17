@@ -67,7 +67,7 @@ export class DebTriang  {
         this.plXZ1
         this.init2=function(){ 
             if(win!=undefined)return
-             win=new DWindow(this.window,2,this.window.height,"triang");
+            win=new DWindow(this.window,2,this.window.height,"triang");
             win.width=222
             var yy=2
             for (var i = 0; i < gt.t.length; i++) {
@@ -154,12 +154,11 @@ export class DebTriang  {
 
             this.par.visi3D.intRend=1;
 
-            gt.upDate();
+            //gt.upDate();
 
 
             let r=gt.setT();
             this.plXZ2.clear();
-            trace(">>>>>>>>>>>>>>>>>>>>>>>>>",r)
             if(r!=null){
                  this.plXZ2.addLine(r[0],r[1]);
                 
