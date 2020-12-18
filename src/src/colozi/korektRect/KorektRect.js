@@ -358,7 +358,7 @@ export class KorektRect  {
                     return
                 }                
             }
-            trace(_br,rd)
+         
             rez=this.krUmnik.isRectLine(_br,rd);
 
             if(rez.tip==0){ //в нутри           
