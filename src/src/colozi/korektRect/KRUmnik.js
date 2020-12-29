@@ -96,11 +96,20 @@ export class KRUmnik  {
                     xz1=(ww+xz*this.par.pS.w )/this.par.pS.w 
                 }
 
+                b1=false;
+            
+                if(i+ww>ww1){                   
+                    b1=true;
+                }                    
+                if(ww2+ww==ww1) b1=true;
+               
+
                 this.creatNS(ww2,_y,ww,_hh,_b,b1,_b2,b3, xz,_sy, xz1,_fy)
                 ww2+=ww;
             }
 
             for (var i = ww2; i < ww1; i+=this.par.pS.w) {
+               
                 b3=false
                 if(i == ww2){
                     if(this.par.pS.x==0)b3=true;                        
@@ -113,11 +122,12 @@ export class KRUmnik  {
                 }                    
                 if(i+ww==ww1) b1=true;
                 xz1=ww/this.par.pS.w; 
-
+                
                 rrr=this.creatNS(i,_y,ww,_hh,_b,b1,_b2,b3, 0,_sy, xz1,_fy);                
             }
         }
         this.creatNS=function(x,y,w,h,b,b1,b2,b3,_x,_y,_x1,_y1){
+           
             rect=this.par.getR();
             rect.x=x;
             rect.y=y;
@@ -275,7 +285,7 @@ export class KRUmnik  {
             ax.length=0;
             ay.length=0;
             ar.length=0;
-
+           
             rx=0
             ry=0
 
@@ -303,15 +313,18 @@ export class KRUmnik  {
             ax.push(1);
             ay.push(1);
 
+
+          
             
             for (var j = 0; j < razArr.arBig.length; j++) {
                 delete razArr.arBig[j]
             }
             razArr.arBig.length=0
-
+            
             for (var j = 0; j < ay.length-1; j++) {
                 if(razArr.arBig[j]==undefined)razArr.arBig[j]=[]
                 for (var i = 0; i < ax.length-1; i++) {
+                    
                     br=this.par.getR();                    
                     br.x=_br.x+_br.w*ax[i]
                     br.x1=_br.x+_br.w*ax[i+1]
@@ -328,15 +341,43 @@ export class KRUmnik  {
                     br.v1=_br.v+(_br.v1-_br.v)*ay[j+1];
                     razArr.arBig[j][i]=br;
 
-                    if (_br.sides) {
+
+                    /*Грани коробки*/
+
+                    if(j==0)br.bool[0]=_br.bool[0]                         
+                    if(i==0)br.bool[3]=_br.bool[3]   
+                    if(j==ay.length-2)br.bool[2]=_br.bool[2]  
+                    if(i==ax.length-2) br.bool[1]=_br.bool[1]; 
+
+
+                    ////////////////////
+
+
+                    if(i==rx&&j==ry){                        
+                        if(bbb==true)ar.push(br) 
+                    }else{
+                        ar.push(br) 
+                        if(j==ry){
+                            if(i+1==rx)br.bool1[1]=true;
+                            if(i-1==rx)br.bool1[3]=true;
+                        }
+                        if(i==rx){
+                            if(j+1==ry)br.bool1[2]=true;
+                            if(j-1==ry)br.bool1[0]=true;
+                        }
+                    }
+
+
+                   /* if (_br.sides) {
                         const {sides} = _br;
                         sides.forEach(item => {
                             const {size, side} = item;
                             
                         })
-                    } 
+                    }*/
+
                     
-                    if(i==rx&&j==ry){                        
+                   /* if(i==rx&&j==ry){                        
                         if(bbb==true)ar.push(br) 
                     }else{
                         ar.push(br) 
@@ -344,7 +385,7 @@ export class KRUmnik  {
 
                     if (this.par.isAdjacent(br, _win)) {
                         this.par.getMatchEdges(br, _win)
-                    }  
+                    } */ 
                 }
             }
 
@@ -394,6 +435,9 @@ export class KRUmnik  {
         ////////////////////geometry/////////////////////////
         /////////////////////////////////////////////
         var vertices = [];
+        var uv = [];
+        var normal = [];
+
         //линейная геометрия для отрисовки линий
         this.setGeomLine=function(geometry){                    
             vertices.length=0           
@@ -404,11 +448,8 @@ export class KRUmnik  {
             geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
         
         }
-
-        var uv = [];
-
-        var normal = [];
-
+  
+       
         var nGeom//0-на 1- от 2 на обоих
         //наполняем геометрию с текстурированием
         this.setGeom=function(geometry, _nGeom){
@@ -421,7 +462,7 @@ export class KRUmnik  {
             for (var i = 0; i < this.par.arrDin.length; i++) {
                 this.setGeomB(this.par.arrDin[i]);
             }        
-            //trace(normal.length+"   "+this.par.arrDin.length)
+       
             geometry.setAttribute( 'uv', new THREE.Float32BufferAttribute( uv, 2 ) );          
             geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
             geometry.setAttribute( 'normal', new THREE.Float32BufferAttribute( normal, 3 ) );    
@@ -659,6 +700,62 @@ export class KRUmnik  {
         }
         /////////////////////////////////////////////
         /////////////////////////////////////////////
+
+
+        this.arrLine=[];
+        this.arrLineCesh=[] 
+        var line,br
+        this.clearAL=function(){
+            this.arrLine.length=0;          
+        }
+
+        this.getLine=function(){
+            if(this.arrLineCesh[this.arrLine.length]==undefined){
+                this.arrLineCesh[this.arrLine.length]={p:{x:0,y:0},p1:{x:0,y:-100}}
+            }       
+            this.arrLine.push(this.arrLineCesh[this.arrLine.length])        
+            return this.arrLine[this.arrLine.length-1];
+        }
+
+
+
+
+
+        this.getLine1=function(){
+            this.clearAL();
+            for (var i = this.par.arrDin.length-1; i >=0; i--) {
+                //this.finalProBox(this.par.arrDin[i])
+            
+                if(this.par.arrDin[i].boolNa==true){
+                    br=this.par.arrDin[i]
+                    line=this.getLine()
+                    if(br.boolPoli==true){
+                        this.setLine(br.x,br.y,br.x+br.w,br.y+br.h,line); 
+                    } 
+                    else{
+                       this.setLine(br.x,br.y+br.h,br.x+br.w,br.y,line);
+                    } 
+                }else{                    
+                    if(this.par.arrDin[i].bool[0]==true){       
+                        line=this.getLine();
+                        this.setLine(this.par.arrDin[i].x,this.par.arrDin[i].y,this.par.arrDin[i].x+this.par.arrDin[i].w,this.par.arrDin[i].y,line);
+                    }
+                   /* if(this.par.arrDin[i].bool1[1]==true){       
+                        line=this.getLine()
+                        this.setLine(this.par.arrDin[i].x+this.par.arrDin[i].w,this.par.arrDin[i].y,this.par.arrDin[i].x+this.par.arrDin[i].w,this.par.arrDin[i].y+this.par.arrDin[i].h,line)
+                    }*/
+
+                }
+            }
+            return this.arrLine;
+        }
+
+        this.setLine=function(x,y,x1,y1,l){
+            l.p.x=x
+            l.p.y=y
+            l.p1.x=x1
+            l.p1.y=y1      
+        } 
     }
 }
 

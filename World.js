@@ -65,12 +65,15 @@ export class World  {
 
         this.korektPosition=function(body){
 
-            //this.line_x.set(this.rect, this.children, body);            
+            //this.line_x.set(this.rect, this.children, body);  
+                    
             this.line_x.korektPosition(body);
+            
             //self.korekt();
             //self.drawDeb();
 
             self.fun("korektPosition",body);
+          
         }
 
         var arr

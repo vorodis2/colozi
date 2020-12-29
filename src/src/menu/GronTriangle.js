@@ -93,6 +93,7 @@ export class GronTriangle  {
                 if(i==1)r=this.isIntersect(this.t1[2],this.t1[1],true)
                 if(i==2)r=this.isIntersect(this.t1[0],this.t1[2],true)*/   
                 if(r!==null){ 
+               
 
                     this.arrPoint[this.arrPoint.length]=this.arrPCesh[this.arrPoint.length];
                     this.arrPoint[this.arrPoint.length-1].x=r[0]
@@ -110,7 +111,7 @@ export class GronTriangle  {
                 if(i==1)r=this.isIntersect(this.t[1],this.t[2],true)
                 if(i==2)r=this.isIntersect(this.t[2],this.t[0],true)
 
-                if(r!==null){
+                if(r!==null){                
                     this.arrPoint[this.arrPoint.length]=this.arrPCesh[this.arrPoint.length];
                     this.arrPoint[this.arrPoint.length-1].x=r[0]
                     this.arrPoint[this.arrPoint.length-1].y=r[1]
@@ -156,7 +157,7 @@ export class GronTriangle  {
         var dd,dd1
         var rezVect = new THREE.Vector3()
         this.isIntersect = function(p, p1, b, b1){
-            console.log(p, p1)
+          
             dd=Math.sqrt(Math.pow((p1.x-p.x), 2) + Math.pow((p1.y-p.y), 2) + Math.pow((p1.z - p.z), 2))
             pt.set(p.x, p.y, p.z);
             dir.set(p1.x, p1.y, p1.z);

@@ -39,7 +39,7 @@ export class Body  {
 
 
         this.dragFun=function() {            
-            
+            console.warn("$$$@@",this.y)
             if(self._parent){
                 self._parent.korektPosition(self)
                /* self._parent.korekt()

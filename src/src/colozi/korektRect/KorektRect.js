@@ -16,7 +16,7 @@ export class KorektRect  {
         this.pS={x:0,y:0,w:100,h:100}//Параметры текстурировнаия и начало энного
 
 
-        this.rect={x:0,y:0,w:10,h:300};
+        this.rect={x:0,y:0,w:300,h:300};
 
 
         this.r={x:0,y:0,w:10,h:10,type:0};
@@ -27,7 +27,9 @@ export class KorektRect  {
         this.arrayCesh=[];
         this.arrDin=[];
         this.arrDinL=[];
-
+        
+        this.colizX=0;
+        this.colizY=0;
         this.coliz=null
         this.arrWin=[/*
             {x:100,y:100,w:100,h:100},
@@ -308,8 +310,9 @@ export class KorektRect  {
                 if (!this.rectIntersect(_br, _win)) return;
 
                 
-
-                this.krUmnik.setBoxInRect(_br,_win)
+               
+                this.krUmnik.setBoxInRect(_br,_win);
+                
                 this.arrDin.splice(_i,1)
                 return;
             } 
@@ -380,8 +383,9 @@ export class KorektRect  {
         //Вписывам рект в рект
         var ze
         this.nafigRect=function(_i,_br, rd){
+          
             ze=this.krUmnik.setBoxInRect(_br,rd,true)
-            
+           
             
             if(rd.type==1){
                 ze.arBig[ze.ry][ze.rx].boolPoli=true;
@@ -421,7 +425,20 @@ export class KorektRect  {
                 if(ze.arBig[ze.ry-1][ze.rx-1]!=undefined)ze.arBig[ze.ry-1][ze.rx-1].bool1[1]=true;
                 if(ze.arBig[ze.ry-1][ze.rx+1]!=undefined)ze.arBig[ze.ry-1][ze.rx+1].bool1[3]=true;
 
+                
+               
+                
                 this.removeDin(ze.arBig[ze.ry-1][ze.rx]);
+                
+                
+                if(ze.arBig[ze.ry][ze.rx].h==0){
+
+                    if(ze.arBig[ze.ry+1]!=undefined){
+                      
+                        ze.arBig[ze.ry+1][ze.rx].bool[0]=true
+                    }
+                }
+                
             } 
             this.arrDin.splice(_i,1);
             return true
@@ -511,6 +528,14 @@ export class KorektRect  {
         this.setGeom=function(geometry, _nGeom){
             this.krUmnik.setGeom(geometry, _nGeom)
         }
+
+        //возврощает массив линий от верхушки
+        this.getLine1=function(){
+            return this.krUmnik.getLine1();
+        }
+
+
+
 
         /////////////////////////////
         //отрисовка дебага

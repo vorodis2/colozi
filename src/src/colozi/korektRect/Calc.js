@@ -63,6 +63,8 @@ export function Calc () {
 			p2 = rezNull;
 		}
 		p2 = p2 || rezNull;
+		//Math.sqrt(Math.pow((p1.x-p.x), 2) + Math.pow((p1.y-p.y), 2) + Math.pow((p1.z - p.z), 2))
+		//if(p2.z!=undefined)return Math.sqrt(Math.pow((p1.x-p2.x), 2) + Math.pow((p1.y-p2.y), 2) + Math.pow((p1.z - p2.z), 2))
 		return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2));
 	};
 

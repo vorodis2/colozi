@@ -21,6 +21,9 @@ export class DebKR  {
         var otstup=50; 
 
         this.dCont=new DCont(dCont);
+        this.cont3d=new THREE.Object3D();
+        this.cont3d.visible=this._active
+
 
         this.pan = new DPanel (this.dCont,otstup,otstup);
         this.pan.width = this._width;
@@ -119,17 +122,18 @@ export class DebKR  {
           
 
 
-            this.cont3d=new THREE.Object3D();
+            
 
             if(this.visi3D){
                 this.setKR(new KorektRect());
 
                 this.visi3D.groupObject.add(this.cont3d); 
-                this.visi3D.zume=1000 
+             /*   this.visi3D.zume=1000 
                 this.visi3D.rotationX=0;//-1.56
-                this.visi3D.rotationZ=0;  
+                this.visi3D.rotationZ=0;  */
             }
             
+
 
 
 
@@ -278,8 +282,8 @@ export class DebKR  {
             });
            	yy+=34
            	this.button1 = new DButton(this.win1.content, 2, yy, 'add Random Rect', function(){
-            	var ww=(1000+kr.rect.w)
-            	var hh=(1000+kr.rect.h)
+            	var ww=(100+kr.rect.w)
+            	var hh=(100+kr.rect.h)
             	kr.arrWin.push(
             		{
             			w:10+Math.random()*200,
@@ -290,7 +294,7 @@ export class DebKR  {
             		)
             	self.sss()
             });
-            yy+=34
+            yy+=34;
            	this.button.width=this.button1.width=this.win1.width-4
             this.win1.height=yy+34;
 
@@ -388,7 +392,7 @@ export class DebKR  {
 			//console.timeEnd("endTime")
 			//console.timeLog("timeLog=")
 
-
+            //trace("=====",kr.getLine1());
 
 
 
@@ -436,8 +440,7 @@ export class DebKR  {
 
         var p={x:0,y:0}
         var www,col
-        this.dragBR=function(br){ 
-           
+        this.dragBR=function(br){           
 
 
             dp.dRect(br);
@@ -451,10 +454,12 @@ export class DebKR  {
             if(br.bool[2]==true)dp.dLineParam(br.x+br.w,br.y+br.h,br.x,br.y+br.h,0xff0000,3.0);
             if(br.bool[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0xff0000,3.5);  
 
+/*
             if(br.bool1[0]==true)dp.dLineParam(br.x,br.y,br.x+br.w,br.y,0x0000ff,4.0);           
             if(br.bool1[1]==true)dp.dLineParam(br.x+br.w,br.y,br.x+br.w,br.y+br.h,0x0000ff,4.0)
             if(br.bool1[2]==true)dp.dLineParam(br.x+br.w,br.y+br.h,br.x,br.y+br.h,0x0000ff,4.0);
-            if(br.bool1[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0x0000ff,4.0); 
+            if(br.bool1[3] == true)dp.dLineParam(br.x, br.y, br.x, br.y+br.h,0x0000ff,4.0); */
+
 
             www=0.1
             if(self.check2.value==true)www=1
@@ -484,6 +489,8 @@ export class DebKR  {
 
         }
 
+        
+
 
 
         this.funDrwgWG=null
@@ -497,10 +504,14 @@ export class DebKR  {
         if(this._active!=value){
             this._active = value;
             this.pan.visible = this.active
+            this.cont3d.visible = this.active
+       
+            if(this.visi3D)this.visi3D.intRend=1    
             this.init()
             if(this.kr){
                 if(value==true){
                     this.kr.funRender=this.drag;
+                    this.drag()
                 }else{
                     this.kr.funRender=undefined;
                 }

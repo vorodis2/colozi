@@ -12,6 +12,9 @@ import { SceneSB } from './visi3D/SceneSB.js';
 
 import { DebKR } from './menu/DebKR.js';
 import { DebTriang } from './menu/DebTriang.js';
+
+import { DebLine } from './menu/DebLine.js';
+
 export class Glaf  {
   	constructor(par) {  		
   		this.type="Glaf";
@@ -71,7 +74,7 @@ export class Glaf  {
         this.visi3D = new MVisi3D(this.div, null, false, true, false, true, false);     
         //this.visi3D.yes3d = true;           
         //this.visi3D.groupObject.add(this.content3d); 
-        var o='{"ambient":{"works":true,"active":true,"color":"#fdffff","intensity":0.71},"shadow":{"works":true,"active":true,"mapSize":4096,"color":"#8c8c8c","bias":-0.0014,"intensity":1.01,"radius":1.27,"bAlphaForCoating":false,"fixation":true,"rotationX":0.93,"rotationZ":0.73,"distance":500,"cubWidth":1000,"cubHeight":1000,"distanceUpdateShadow":65.41},"sky":{"works":true,"active":true,"color":"#ffffff","link":"resources/image/sky.jpg","rotZ":2.73,"radius":40000,"x":0,"y":0,"z":0},"mirror":{"works":true,"link":"null","exposure":1.44,"gamma":2.87,"xz":"reflect","link1":"null","exposure1":-1,"gamma1":-1},"visi3D":{"works":true,"alwaysRender":false,"fov":40,"far":77175,"minZum":0,"maxZum":30942,"zume":25000,"minRotationX":3.14,"maxRotationX":0,"rotationX":0.94,"rotationZ":0.17,"debug":false,"isDragPan":false,"alphaAd":false,"globZ":0,"powerZum":1},"fog":{"works":true,"active":false,"color":"#ffffff","near":0,"far":0},"effect":{"works":true,"active":false,"edgeStrength":3,"edgeGlow":0,"pulsePeriod":0,"linkTextur":"null","visibleEdgeColor":"#ffffff","hiddenEdgeColor":"#190a05"}}'
+        var o='{"ambient":{"works":true,"active":true,"color":"#fdffff","intensity":0.71},"shadow":{"works":true,"active":true,"mapSize":4096,"color":"#8c8c8c","bias":-0.0014,"intensity":1.01,"radius":1.27,"bAlphaForCoating":false,"fixation":true,"rotationX":0.93,"rotationZ":0.73,"distance":500,"cubWidth":1000,"cubHeight":1000,"distanceUpdateShadow":65.41},"sky":{"works":true,"active":true,"color":"#ffffff","link":"resources/image/sky.jpg","rotZ":2.73,"radius":40000,"x":0,"y":0,"z":0},"mirror":{"works":true,"link":"null","exposure":1.44,"gamma":2.87,"xz":"reflect","link1":"null","exposure1":-1,"gamma1":-1},"visi3D":{"works":true,"alwaysRender":false,"fov":40,"far":77175,"minZum":0,"maxZum":30942,"zume":200,"minRotationX":3.14,"maxRotationX":0,"rotationX":0.94,"rotationZ":0.17,"debug":false,"isDragPan":false,"alphaAd":false,"globZ":0,"powerZum":1},"fog":{"works":true,"active":false,"color":"#ffffff","near":0,"far":0},"effect":{"works":true,"active":false,"edgeStrength":3,"edgeGlow":0,"pulsePeriod":0,"linkTextur":"null","visibleEdgeColor":"#ffffff","hiddenEdgeColor":"#190a05"}}'
         var scene=JSON.parse(o);  
         this.sceneSB=new SceneSB(this.visi3D);
         for (var i = 0; i <  this.sceneSB.array.length; i++) {
@@ -81,7 +84,24 @@ export class Glaf  {
             this.sceneSB.array[i].setBasa(scene[this.sceneSB.array[i].name]);
         }        
         this.visi3D.isDragPan=true;
-        
+        this.visi3D.alwaysRender=true;
+
+        this.visi3D.fun_rotationX=function(){
+            self.saveTime()
+        }
+
+        this.save1=function(){  
+             
+            self.saveLoacal();
+        } 
+        this.sah=0;
+        this.saveTime=function(){
+            this.sah++;
+            var s=this.sah;
+            setTimeout(function() {
+                if(self.sah==s)self.save1()
+            }, 500);
+        } 
 
 
 
@@ -99,24 +119,40 @@ export class Glaf  {
         },false);
 
 
-      /*  this.debKR=new DebKR(self.dCont,function(s,p,p1){
+        this.debKR=new DebKR(self.dCont,function(s,p,p1){
             if(s=="saveLocal") self.saveLoacal();
         },self.visi3D);
         self.devBig.addCont(this.debKR, this.debKR.dCont,"DebKR",undefined,undefined);
-        this.devBig.index=0;
-        this.debKR.init();*/
+        
+        this.debKR.init();
 
 
-        ///////////////////////////////////////////////
+        ///////////////////////треугольники////////////////////////        
         this.debTriang=new DebTriang(this,function(s,p,p1){
             self.saveLoacal();
         })
         this.debTriang.init('{"tr":[{"x":-571.5540327620582,"y":-483.65895797909917,"z":-382.25},{"x":18.445967237941773,"y":-23.658957979099114,"z":0},{"x":-571.5540327620582,"y":-483.65895797909917,"z":0}],"tr1":[{"x":-200,"y":0,"z":-300},{"x":-450,"y":-350,"z":-138},{"x":160,"y":-350,"z":-251}]}');
-
-        /////////////////////////////////////////////////
-
         
- 
+        self.devBig.addCont(this.debTriang, this.debTriang.dCont,"debTriang",undefined,undefined);
+
+
+
+
+
+        ////////////////////////Массив линий/////////////////////////
+         var jsonArr='null'
+
+
+        this.debLine=new DebLine(this,function(s,p,p1){
+            self.saveLoacal();
+        },this.visi3D)
+        this.debLine.init(jsonArr)
+        self.devBig.addCont(this.debLine, this.debLine.dCont,"debLine",undefined,undefined);
+
+        //////////////////////////////////////////
+
+
+        //this.devBig.index=2;
  
         this.update = function () { 
             if(this.window.minimize==false) this.visi3D.upDate();
@@ -143,6 +179,7 @@ export class Glaf  {
             this.window.x=o.window.x
             this.window.y=o.window.y
             this.window.minimize=o.window.minimize
+
             if(o.dev){
                 this.dev.minimize=o.dev.minimize
                 this.dev.x=o.dev.x
@@ -164,16 +201,22 @@ export class Glaf  {
                 this.window.height=o.window.height;
                 this.visi3D.sizeWindow(0,0,this.window.width,this.window.height);
             }
+            if(o.visi3D){
+                this.visi3D.setObj(o.visi3D)
+            }
+     
 
            
             if(this.debTriang)if(o.debTriang){
-                trace(o.debTriang)
+           
                 this.debTriang.setObjLoc(o.debTriang)
             }
 
 
             //return
             if(this.debKR)if(o.debKR)this.debKR.setObjLoc(o.debKR)
+
+            if(o.index!=undefined) this.devBig.index= o.index;
         }
         this.getObjLoc=function(o){ 
             var o={}
@@ -196,9 +239,13 @@ export class Glaf  {
             o.devBig.x=this.devBig.x
             o.devBig.y=this.devBig.y
             o.devBig.index=this.devBig.index
+
+            o.visi3D=this.visi3D.getObj()
             
             if(this.debTriang)o.debTriang=this.debTriang.getObjLoc();
             if(this.debKR)o.debKR=this.debKR.getObjLoc();
+
+            o.index=this.devBig.index;
             return o
         }
 
